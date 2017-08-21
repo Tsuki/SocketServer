@@ -10,6 +10,7 @@ import (
 
 var host = flag.String("host", "127.0.0.1", "host")
 var port = flag.String("port", "9090", "port")
+var config = flag.String("template","\n","template")
 
 func main() {
 	flag.Parse()
@@ -34,6 +35,7 @@ func main() {
 }
 
 func handleRequest(conn net.Conn) {
+
 	defer conn.Close()
 	for {
 		var b = make([]byte, 20480)
@@ -42,7 +44,7 @@ func handleRequest(conn net.Conn) {
 			break
 		}
 		log.Printf("got: %s\n", string(b[:bytesRead]))
-		var resp = ""
+		var resp = *config
 		conn.Write([]byte(resp))
 	}
 
